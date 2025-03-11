@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,8 @@ public class PlayerController : MonoBehaviour
     public float maxXLook;
     public float lookSensitivity;
     public bool canLook = true;
+
+    public Action inven;
 
     private Rigidbody _rigidbody;
 
@@ -110,4 +113,24 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+    public void OnInventory(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            inven?.Invoke();
+            ToggleCursor();
+        }
+    }
+
+    void ToggleCursor()
+    {
+        // 커서가 잠금 모드인지 확인
+        bool toggle = Cursor.lockState == CursorLockMode.Locked;
+
+        // 이전 상태의 반대로 바꿔줌 None <-> Locked
+        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
+
+        //canlock은 toggle의 반대로 설정한다.
+        canLook = !toggle;
+    }
 }

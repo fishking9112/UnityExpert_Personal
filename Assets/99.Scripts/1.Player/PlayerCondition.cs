@@ -36,6 +36,12 @@ public class PlayerCondition : MonoBehaviour
         if (HP.curValue <= 0f)
             Die();
     }
+    // 회복
+    public void Heal(float amount)
+    {
+        HP.Add(amount);
+    }
+
     void Die()
     {
         Debug.Log("죽었어요 ㅠㅠ");
